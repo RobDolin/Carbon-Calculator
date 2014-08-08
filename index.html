@@ -17,7 +17,14 @@
   
   <body onload="onBodyLoad()">
     <h1>Carbon Calculator</h1>
-    <p>Hello world</p>
+
+    <p>
+      How many people are in your household? <br />
+      <input type="number" name="txtNumPeople" min="1" max="12" step="1" value="2" />
+    </p>
+    <p>
+      <input type="submit" onclick="javascript:alert('People: ' + txtNumPeople.value);" />
+    </p>
     
   </body>
 </html>
