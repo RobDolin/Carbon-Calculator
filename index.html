@@ -11,6 +11,15 @@
         
       }
     
+      function Calculate() {
+        var iNumPeople = 0;
+        var iNumCars = 0;
+        var iNumFlights = 0;
+        var iNumHomeSqFt = 0;
+
+
+      } // end Calculate()
+
     </script>
     
   </head>
@@ -21,6 +30,27 @@
     <p>
       How many people are in your household? <br />
       <input type="number" name="txtNumPeople" min="1" max="12" step="1" value="2" />
+    </p>
+    <p>
+      How many cars does your household have? <br />
+      <input type="number" name="txtNumCars" min="0" max="12" step="1" value="1" />
+    </p>
+    <p>
+      How many one-way airplane flights does each person take per year? <br />
+      <input type="number" name="txtNumFlights" min="0" max="200" step="1" value="4" />
+    </p>
+    <p>
+      How large is your home? (in square feet) <br />
+      <input type="number" name="txtNumHomeSqFt" min="0" max="10000" step="1" value="1200" />
+    </p>
+    <p>
+      What diet does most of your household eat? <br />
+      <select id="slcDiet">
+        <option value="Meat">Omnivore - Eats meat, fish, eggs, and milk</option>
+        <option value="Fish">Pescatarian - No meat, but eats fish, eggs, and milk</option>
+        <option value="Veggie">Vegetarian - No meat, but eats eggs, and milk</option>
+        <option value="Vegan">Omnivore - No meat, no fish, no eggs, no milk</option>
+      </select>
     </p>
     <p>
       <input type="submit" onclick="javascript:alert('People: ' + txtNumPeople.value);" />
