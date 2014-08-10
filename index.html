@@ -27,8 +27,14 @@
         strDebugStatus += "Diet: " + slcDiet.value + "\n";
         alert(strDebugStatus);
 
-        var iNumRoundTrips = txtNumFlights.value / 2;
-        alert(iNumRoundTrips);
+        iNumPeople = txtNumPeople.value * 1;
+        iNumCars = txtNumCars.value * 1;
+        iNumFlights = txtNumFlights.value * 1;
+        iNumHomeSqFt = txtNumHomeSqFt.value * 1;
+
+        // debug
+        var iNumRoundTrips = iNumFlights * iNumPeople / 2;
+        alert("Total round-trips per household: " + iNumRoundTrips + "\n");
 
         btnSubmit.value = "Recalculate";
 
