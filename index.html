@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Carbon Calculator</title>
     <script type="text/javascript" charset="utf-8">
 
       function onBodyLoad() {
@@ -19,11 +20,17 @@
 
         // debug
         var strDebugStatus = "";
-        strDebugStatus += "People: " + txtNumPeople.value;
-        strDebugStatus += "Cars: " + txtNumCars.value;
-        strDebugStatus += "Flights: " + txtNumFlights.value;
-        strDebugStatus += "HomeSqFt: " + txtNumHomeSqFt.value;
+        strDebugStatus += "People: " + txtNumPeople.value + "\n";
+        strDebugStatus += "Cars: " + txtNumCars.value + "\n";
+        strDebugStatus += "Flights: " + txtNumFlights.value + "\n";
+        strDebugStatus += "HomeSqFt: " + txtNumHomeSqFt.value + "\n";
+        strDebugStatus += "Diet: " + slcDiet.value + "\n";
         alert(strDebugStatus);
+
+        var iNumRoundTrips = txtNumFlights.value / 2;
+        alert(iNumRoundTrips);
+
+        btnSubmit.value = "Recalculate";
 
       } // end Calculate()
 
@@ -60,7 +67,7 @@
       </select>
     </p>
     <p>
-      <input type="submit" onclick="javascript:alert('People: ' + txtNumPeople.value);" title="Calculate" />
+      <input id="btnSubmit" type="submit" onclick="javascript:Calculate();" value="Calculate" />
     </p>
     
   </body>
