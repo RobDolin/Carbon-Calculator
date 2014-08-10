@@ -46,12 +46,34 @@
         dvUserInputs.innerHTML += "&nbsp; " + iNumHomeSqFt.toString() + " sq. ft. in home<br />";
         dvUserInputs.innerHTML += "&nbsp; " + slcDiet.value + " diet<br />";
 
-        // debug
-        var iNumRoundTrips = iNumFlights * iNumPeople / 2;
-        alert("Total round-trips per household: " + iNumRoundTrips + "\n");
+        // Assumptions and sources
+        var iCarMilesPerYear = 12000; // http://www.epa.gov/otaq/consumer/420f08024.pdf
+        var iAverageHomeSqFt = 1971; // http://www.eia.gov/consumption/residential/data/2009/
+        var fpMidMeatEaterKgCO2PerDay = 5.63; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpVegetarianEaterKgCO2PerDay = 3.81; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpVeganEaterKgCO2PerDay = 2.89; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpElectricHeatKgCO2PerMMBTU = 164.126611957796; // http://www.epa.gov/climateleadership/documents/emission-factors.pdf
+        // TODO: Finish heat or just use calculation
 
+        var fpTonsCO2HomeEnergyPerAverageHousehold = 9.904832; // http://www.epa.gov/climateleadership/documents/emission-factors.pdf and http://www.eia.gov/consumption/residential/data/2009/index.cfm?view=consumption
+        var fpHoursPerFlight = 3.0; 
+        var fpTonsCO2PerPersonPerFlightPerHour = 0.25; // http://carbonindependent.org/sources_aviation.htm
+        var fpAverageMilesPerGallonForPersonalCar = 23.3; // http://www.rita.dot.gov/bts/sites/rita.dot.gov.bts/files/publications/national_transportation_statistics/html/table_04_11.html
+        var fpTonsCO2PerGallonForPersonalCar = 0.0088; // http://www.epa.gov/climateleadership/documents/emission-factors.pdf
 
-        // Change button text from "Calculcate" to "Recalculate" after first calculation
+        // Calculate car emissions
+        var fpCarEmissions = iNumCars * iCarMilesPerYear * fpTonsCO2PerGallonForPersonalCar / fpAverageMilesPerGallonForPersonalCar;
+        alert("Car emissions: " + fpCarEmissions.toString() );
+
+        // Calculate flight emissions
+        var fpFlightEmissions = iNumFlights * iNumPeople * fpHoursPerFlight * fpTonsCO2PerPersonPerFlightPerHour;
+        alert("Flight emissions: " + fpFlightEmissions.toString() );
+
+        // Calculate home energy emissions
+        var fpHomeEnergyEmissions = iNumHomeSqFt * fpTonsCO2HomeEnergyPerAverageHousehold / iAverageHomeSqFt;
+        alert("Home energy emissions: " + fpHomeEnergyEmissions.toString());
+
+          // Change button text from "Calculcate" to "Recalculate" after first calculation
         btnSubmit.value = "Recalculate";
 
       } // end Calculate()
