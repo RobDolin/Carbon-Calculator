@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <title>Carbon Calculator</title>
     <script type="text/javascript" charset="utf-8">
 
       function onBodyLoad() {
@@ -12,11 +13,104 @@
       }
     
       function Calculate() {
+
+        // Initialize variables
         var iNumPeople = 0;
         var iNumCars = 0;
         var iNumFlights = 0;
         var iNumHomeSqFt = 0;
 
+        // Set variable values (as values not strings)
+        iNumPeople = txtNumPeople.value * 1;
+        iNumCars = txtNumCars.value * 1;
+        iNumFlights = txtNumFlights.value * 1;
+        iNumHomeSqFt = txtNumHomeSqFt.value * 1;
+
+        // debug
+        /*
+        var strDebugStatus = "";
+        strDebugStatus += "People: " + txtNumPeople.value + "\n";
+        strDebugStatus += "Cars: " + txtNumCars.value + "\n";
+        strDebugStatus += "Flights: " + txtNumFlights.value + "\n";
+        strDebugStatus += "HomeSqFt: " + txtNumHomeSqFt.value + "\n";
+        strDebugStatus += "Diet: " + slcDiet.value + "\n";
+        alert(strDebugStatus);
+        */
+        // end debug
+
+        // Display user inputs
+        dvUserInputs.innerHTML = "Your household information: <br /> ";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumPeople.toString() + " people<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumCars.toString() + " car(s)<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumFlights.toString() + " flight(s) per person per year<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumHomeSqFt.toString() + " sq. ft. in home<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + slcDiet.value + " diet<br />";
+
+        // Assumptions and sources
+        var iCarMilesPerYear = 12000; // http://www.epa.gov/otaq/consumer/420f08024.pdf
+        var iAverageHomeSqFt = 1971; // http://www.eia.gov/consumption/residential/data/2009/
+        var fpHighMeatEaterKgCO2PerDay = 7.19; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpMidMeatEaterKgCO2PerDay = 5.63; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpLowMeatEaterKgCO2PerDay = 4.67; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpFishEaterKgCO2PerDay = 3.91; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpVegetarianEaterKgCO2PerDay = 3.81; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpVeganEaterKgCO2PerDay = 2.89; // http://link.springer.com/article/10.1007%2Fs10584-014-1169-1
+        var fpElectricHeatKgCO2PerMMBTU = 164.126611957796; // http://www.epa.gov/climateleadership/documents/emission-factors.pdf
+        // TODO: Finish heat or just use calculation
+
+        var fpTonsCO2HomeEnergyPerAverageHousehold = 9.904832; // http://www.epa.gov/climateleadership/documents/emission-factors.pdf and http://www.eia.gov/consumption/residential/data/2009/index.cfm?view=consumption
+        var fpHoursPerFlight = 3.0; 
+        var fpTonsCO2PerPersonPerFlightPerHour = 0.25; // http://carbonindependent.org/sources_aviation.htm
+        var fpAverageMilesPerGallonForPersonalCar = 23.3; // http://www.rita.dot.gov/bts/sites/rita.dot.gov.bts/files/publications/national_transportation_statistics/html/table_04_11.html
+        var fpTonsCO2PerGallonForPersonalCar = 0.0088; // http://www.epa.gov/climateleadership/documents/emission-factors.pdf
+
+        // Calculate car emissions
+        var fpCarEmissions = iNumCars * iCarMilesPerYear * fpTonsCO2PerGallonForPersonalCar / fpAverageMilesPerGallonForPersonalCar;
+        // alert("Car emissions: " + fpCarEmissions.toString() );
+
+        // Calculate flight emissions
+        var fpFlightEmissions = iNumFlights * iNumPeople * fpHoursPerFlight * fpTonsCO2PerPersonPerFlightPerHour;
+        // alert("Flight emissions: " + fpFlightEmissions.toString() );
+
+        // Calculate home energy emissions
+        var fpHomeEnergyEmissions = iNumHomeSqFt * fpTonsCO2HomeEnergyPerAverageHousehold / iAverageHomeSqFt;
+        // alert("Home energy emissions: " + fpHomeEnergyEmissions.toString());
+
+        // Calculate diet emissions
+        var fpDietFactor = 0;
+        switch (slcDiet.value) {
+            case "Meat":
+                fpDietFactor = fpMidMeatEaterKgCO2PerDay;
+                break;
+            case "Fish":
+                fpDietFactor = fpFishEaterKgCO2PerDay;
+                break;
+            case "Veggie":
+                fpDietFactor = fpVegetarianEaterKgCO2PerDay;
+                break;
+            case "Vegan":
+                fpDietFactor = fpVeganEaterKgCO2PerDay;
+                break;
+        }
+        // alert(fpDietFactor.toString());
+        var fpDietEmissions = iNumPeople * 365 * fpDietFactor / 1000;  // Multiply by 365 and divide by 1000 b/c factor is _Kg_CO2 per person per day
+        // alert("Diet-related emissions: " + fpDietEmissions.toString());
+
+        // Calculate total
+        var fpTotalEmissions = fpCarEmissions + fpFlightEmissions + fpHomeEnergyEmissions + fpDietEmissions;
+        // alert("Total emissions: " + fpTotalEmissions.toString());
+
+        // Display emissions
+        dvCarbon.innerHTML = "Your estimated household carbon emissions (metric tons per year):<br />";
+        dvCarbon.innerHTML += "&nbsp; " + fpCarEmissions.toFixed(1) + " from car(s)<br />";
+        dvCarbon.innerHTML += "&nbsp; " + fpFlightEmissions.toFixed(1) + " from flight(s)<br />";
+        dvCarbon.innerHTML += "&nbsp; " + fpHomeEnergyEmissions.toFixed(1) + " from home energy<br />";
+        dvCarbon.innerHTML += "&nbsp; " + fpDietEmissions.toFixed(1) + " from diet<br />";
+        dvCarbon.innerHTML += "Total emissions from cars, flights, home energy, and diet: " + "<b>" + fpTotalEmissions.toFixed(1) + "</b>" + " metric tons per year<br />";
+        // NOTE: toPrecision() is # of significant figures; toFixed() is # of fixed decimal places
+
+        // Change button text from "Calculcate" to "Recalculate" after first calculation
+        btnSubmit.value = "Recalculate";
 
       } // end Calculate()
 
@@ -41,20 +135,25 @@
     </p>
     <p>
       How large is your home? (in square feet) <br />
-      <input type="number" name="txtNumHomeSqFt" min="0" max="10000" step="1" value="1200" />
+      <input type="number" name="txtNumHomeSqFt" min="0" max="10000" step="1" value="1800" />
     </p>
     <p>
       What diet does most of your household eat? <br />
       <select id="slcDiet">
         <option value="Meat">Omnivore - Eats meat, fish, eggs, and milk</option>
-        <option value="Fish">Pescatarian - No meat, but eats fish, eggs, and milk</option>
-        <option value="Veggie">Vegetarian - No meat, but eats eggs, and milk</option>
+        <option value="Fish">Pescatarian - No meat; but eats fish, eggs, and milk</option>
+        <option value="Veggie">Vegetarian - No meat, no fish; but eats eggs and milk</option>
         <option value="Vegan">Omnivore - No meat, no fish, no eggs, no milk</option>
       </select>
     </p>
     <p>
-      <input type="submit" onclick="javascript:alert('People: ' + txtNumPeople.value);" />
+      <input id="btnSubmit" type="submit" onclick="javascript:Calculate();" value="Calculate" />
     </p>
+    <div id="dvUserInputs"></div>
+    <div id="dvSpacer1"><br /></div>
+    <div id="dvCarbon"></div>
+    <div id="dvSpacer2"><br /></div>
+    <div id="dvAttribution" style="font-size:smaller;">Carbon Calculator provided free by <a href="http://offset.ly">Offsetly</a></div>
     
   </body>
 </html>
