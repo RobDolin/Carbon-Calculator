@@ -17,6 +17,13 @@
         var iNumFlights = 0;
         var iNumHomeSqFt = 0;
 
+        // debug
+        var strDebugStatus = "";
+        strDebugStatus += "People: " + txtNumPeople.value;
+        strDebugStatus += "Cars: " + txtNumCars.value;
+        strDebugStatus += "Flights: " + txtNumFlights.value;
+        strDebugStatus += "HomeSqFt: " + txtNumHomeSqFt.value;
+        alert(strDebugStatus);
 
       } // end Calculate()
 
@@ -53,7 +60,7 @@
       </select>
     </p>
     <p>
-      <input type="submit" onclick="javascript:alert('People: ' + txtNumPeople.value);" />
+      <input type="submit" onclick="javascript:alert('People: ' + txtNumPeople.value);" title="Calculate" />
     </p>
     
   </body>
