@@ -13,12 +13,21 @@
       }
     
       function Calculate() {
+
+        // Initialize variables
         var iNumPeople = 0;
         var iNumCars = 0;
         var iNumFlights = 0;
         var iNumHomeSqFt = 0;
 
+        // Set variable values (as values not strings)
+        iNumPeople = txtNumPeople.value * 1;
+        iNumCars = txtNumCars.value * 1;
+        iNumFlights = txtNumFlights.value * 1;
+        iNumHomeSqFt = txtNumHomeSqFt.value * 1;
+
         // debug
+        /*
         var strDebugStatus = "";
         strDebugStatus += "People: " + txtNumPeople.value + "\n";
         strDebugStatus += "Cars: " + txtNumCars.value + "\n";
@@ -26,16 +35,23 @@
         strDebugStatus += "HomeSqFt: " + txtNumHomeSqFt.value + "\n";
         strDebugStatus += "Diet: " + slcDiet.value + "\n";
         alert(strDebugStatus);
+        */
+        // end debug
 
-        iNumPeople = txtNumPeople.value * 1;
-        iNumCars = txtNumCars.value * 1;
-        iNumFlights = txtNumFlights.value * 1;
-        iNumHomeSqFt = txtNumHomeSqFt.value * 1;
+        // Display user inputs
+        dvUserInputs.innerHTML = "Your household information: <br /> ";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumPeople.toString() + " people<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumCars.toString() + " car(s)<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumFlights.toString() + " flight(s) per person per year<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + iNumHomeSqFt.toString() + " sq. ft. in home<br />";
+        dvUserInputs.innerHTML += "&nbsp; " + slcDiet.value + " diet<br />";
 
         // debug
         var iNumRoundTrips = iNumFlights * iNumPeople / 2;
         alert("Total round-trips per household: " + iNumRoundTrips + "\n");
 
+
+        // Change button text from "Calculcate" to "Recalculate" after first calculation
         btnSubmit.value = "Recalculate";
 
       } // end Calculate()
@@ -61,20 +77,25 @@
     </p>
     <p>
       How large is your home? (in square feet) <br />
-      <input type="number" name="txtNumHomeSqFt" min="0" max="10000" step="1" value="1200" />
+      <input type="number" name="txtNumHomeSqFt" min="0" max="10000" step="1" value="1800" />
     </p>
     <p>
       What diet does most of your household eat? <br />
       <select id="slcDiet">
         <option value="Meat">Omnivore - Eats meat, fish, eggs, and milk</option>
-        <option value="Fish">Pescatarian - No meat, but eats fish, eggs, and milk</option>
-        <option value="Veggie">Vegetarian - No meat, but eats eggs, and milk</option>
+        <option value="Fish">Pescatarian - No meat; but eats fish, eggs, and milk</option>
+        <option value="Veggie">Vegetarian - No meat, no fish; but eats eggs and milk</option>
         <option value="Vegan">Omnivore - No meat, no fish, no eggs, no milk</option>
       </select>
     </p>
     <p>
       <input id="btnSubmit" type="submit" onclick="javascript:Calculate();" value="Calculate" />
     </p>
+    <div id="dvUserInputs"></div>
+    <div id="dvSpacer1"><br /></div>
+    <div id="dvCarbon"></div>
+    <div id="dvSpacer2"><br /></div>
+    <div id="dvAttribution" style="font-size:smaller;">Carbon Calculator provided free by <a href="http://offset.ly">Offsetly</a></div>
     
   </body>
 </html>
