@@ -14,17 +14,19 @@
     
       function Calculate() {
 
+        // debug
+        // alert("Calculating");
+
         // Initialize variables
         var iNumPeople = 0;
         var iNumCars = 0;
         var iNumFlights = 0;
         var iNumHomeSqFt = 0;
 
-        // Set variable values (as values not strings)
-        iNumPeople = txtNumPeople.value * 1;
-        iNumCars = txtNumCars.value * 1;
-        iNumFlights = txtNumFlights.value * 1;
-        iNumHomeSqFt = txtNumHomeSqFt.value * 1;
+        iNumPeople = parseInt( txtNumPeople.value );
+        iNumCars = parseInt( txtNumCars.value );
+        iNumFlights = parseInt( txtNumFlights.value );
+        iNumHomeSqFt = parseInt( txtNumHomeSqFt.value );
 
         // debug
         /*
@@ -123,19 +125,19 @@
 
     <p>
       How many people are in your household? <br />
-      <input type="number" name="txtNumPeople" min="1" max="12" step="1" value="2" />
+      <input type="number" id="txtNumPeople" min="1" max="12" step="1" value="2" />
     </p>
     <p>
       How many cars does your household have? <br />
-      <input type="number" name="txtNumCars" min="0" max="12" step="1" value="1" />
+      <input type="number" id="txtNumCars" min="0" max="12" step="1" value="1" />
     </p>
     <p>
       How many one-way airplane flights does each person take per year? <br />
-      <input type="number" name="txtNumFlights" min="0" max="200" step="1" value="4" />
+      <input type="number" id="txtNumFlights" min="0" max="200" step="1" value="4" />
     </p>
     <p>
       How large is your home? (in square feet) <br />
-      <input type="number" name="txtNumHomeSqFt" min="0" max="10000" step="1" value="1800" />
+      <input type="number" id="txtNumHomeSqFt" min="0" max="10000" step="1" value="1800" />
     </p>
     <p>
       What diet does most of your household eat? <br />
@@ -147,7 +149,7 @@
       </select>
     </p>
     <p>
-      <input id="btnSubmit" type="submit" onclick="javascript:Calculate();" value="Calculate" />
+      <input id="btnSubmit" type="submit" onclick="Calculate();" value="Calculate" />
     </p>
     <div id="dvUserInputs"></div>
     <div id="dvSpacer1"><br /></div>
