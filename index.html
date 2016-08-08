@@ -19,12 +19,13 @@
         var iNumCars = 0;
         var iNumFlights = 0;
         var iNumHomeSqFt = 0;
-
+        
         // Set variable values (as values not strings)
-        iNumPeople = txtNumPeople.value * 1;
-        iNumCars = txtNumCars.value * 1;
-        iNumFlights = txtNumFlights.value * 1;
-        iNumHomeSqFt = txtNumHomeSqFt.value * 1;
+        iNumPeople   = parseInt( document.getElementsByName("txtNumPeople")[0].value );
+        iNumCars     = parseInt( document.getElementsByName("txtNumCars")[0].value );
+        iNumFlights  = parseInt( document.getElementsByName("txtNumFlights")[0].value );
+        iNumHomeSqFt = parseInt( document.getElementsByName("txtNumHomeSqFt")[0].value );
+        
 
         // debug
         /*
